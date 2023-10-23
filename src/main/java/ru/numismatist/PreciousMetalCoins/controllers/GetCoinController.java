@@ -20,4 +20,5 @@ public class GetCoinController {
     public void getCoin(@PathVariable int id) {
         System.out.println(coinService.getCoinByIndex(id).getCost());
     }
+
 }

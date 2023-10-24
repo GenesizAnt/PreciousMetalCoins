@@ -66,6 +66,19 @@ public class CoinController {
         Coin newCoin = convertXMLToCoin();
         coinService.addNewCoin(newCoin);
     }
+
+    @DeleteMapping("/delete/{id}")
+    @ResponseBody
+    public void deleteCoin(@PathVariable("id") int id) {
+        coinService.deleteCoinById(id);
+    }
+
+    @PatchMapping(value = "/patch/{id}", consumes = MediaType.APPLICATION_XML_VALUE)
+    @ResponseBody
+    public void pathCoin(@RequestBody CoinXml coinXml, @PathVariable("id") int id) {
+        Coin patchCoin = coinMapper.toCoin(coinXml);
+        coinService.updateCoin(id, patchCoin);
+    }
 }
 
 

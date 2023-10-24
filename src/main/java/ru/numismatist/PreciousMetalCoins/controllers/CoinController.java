@@ -14,16 +14,17 @@ import ru.numismatist.PreciousMetalCoins.services.CoinService;
 import java.util.List;
 
 import static ru.numismatist.PreciousMetalCoins.util.Util.getXMLResponse;
+import static ru.numismatist.PreciousMetalCoins.util.XmlSerializer.convertXMLToCoin;
 
 @Controller
 @RequestMapping("/coins")
-public class GetCoinController {
+public class CoinController {
 
     private final CoinService coinService;
     private final CoinMapper coinMapper;
 
     @Autowired
-    public GetCoinController(CoinService coinService, CoinMapper coinMapper) {
+    public CoinController(CoinService coinService, CoinMapper coinMapper) {
         this.coinService = coinService;
         this.coinMapper = coinMapper;
     }
@@ -56,6 +57,13 @@ public class GetCoinController {
     @ResponseBody
     public void addCoin(@RequestBody CoinXml coinXml) {
         Coin newCoin = coinMapper.toCoin(coinXml);
+        coinService.addNewCoin(newCoin);
+    }
+
+    @PostMapping("/add_from_file")
+    @ResponseBody
+    public void addCoinFromFile() {
+        Coin newCoin = convertXMLToCoin();
         coinService.addNewCoin(newCoin);
     }
 }

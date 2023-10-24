@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Coin>
+<coin>
     <name>Алмазный-22</name>
     <denomination>25</denomination>
     <metal>серебро 925/1000</metal>
     <weight>155.00</weight>
     <catalogNumber>5115-0159</catalogNumber>
     <cost>21500</cost>
-</Coin>
+</coin>

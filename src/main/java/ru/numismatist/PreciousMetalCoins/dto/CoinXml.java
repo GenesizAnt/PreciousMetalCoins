@@ -7,7 +7,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "Coin")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CoinXml { //возможно переименовать
+public class CoinXml {
 
     @XmlElement
     private String name;

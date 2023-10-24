@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.numismatist.PreciousMetalCoins.models.Coin;
 import ru.numismatist.PreciousMetalCoins.repositories.CoinRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,7 +20,11 @@ public class CoinService {
 
     public Coin getCoinByIndex(int id) {
         Optional<Coin> byId = coinRepository.findById(id);
-        return byId.orElse(null); //возвращать ошибку
+        return byId.orElse(null);
+    }
+
+    public List<Coin> findAllCoin() {
+        return coinRepository.findAll();
     }
 
 }

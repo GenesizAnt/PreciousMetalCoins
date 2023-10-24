@@ -19,7 +19,6 @@ public class Coin {
     @Column(name = "name")
     private String name;
 
-    @NotEmpty(message = "Номинал не должен быть пустым")
     @Positive
     @Column(name = "denomination")
     private int denomination;
@@ -29,7 +28,6 @@ public class Coin {
     @Column(name = "metal")
     private String metal;
 
-    @NotEmpty(message = "Вес не должен быть пустым")
     @Positive
     @Column(name = "weight")
     private double weight;
@@ -39,7 +37,6 @@ public class Coin {
     @Column(name = "catalogNumber")
     private String catalogNumber;
 
-    @NotEmpty(message = "Цена должна быть указана")
     @Positive
     @Column(name = "cost")
     private int cost;

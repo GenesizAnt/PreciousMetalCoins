@@ -28,4 +28,14 @@ public class CoinMapper {
         }
         return coinXmlList;
     }
+
+    public Coin toCoin(CoinXml coinXml) {
+        return new Coin(
+                coinXml.getName(),
+                coinXml.getDenomination(),
+                coinXml.getMetal(),
+                coinXml.getWeight(),
+                coinXml.getCatalogNumber(),
+                coinXml.getCost());
+    }
 }

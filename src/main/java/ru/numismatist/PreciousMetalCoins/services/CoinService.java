@@ -2,6 +2,7 @@ package ru.numismatist.PreciousMetalCoins.services;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.numismatist.PreciousMetalCoins.dto.CoinXml;
 import ru.numismatist.PreciousMetalCoins.models.Coin;
 import ru.numismatist.PreciousMetalCoins.repositories.CoinRepository;
 
@@ -27,4 +28,8 @@ public class CoinService {
         return coinRepository.findAll();
     }
 
+    @Transactional
+    public void addNewCoin(Coin newCoin) {
+        coinRepository.save(newCoin);
+    }
 }

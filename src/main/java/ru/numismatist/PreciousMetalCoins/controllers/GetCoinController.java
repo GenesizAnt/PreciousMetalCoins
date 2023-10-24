@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.numismatist.PreciousMetalCoins.dto.CoinXml;
 import ru.numismatist.PreciousMetalCoins.dto.mapper.CoinMapper;
+import ru.numismatist.PreciousMetalCoins.models.Coin;
 import ru.numismatist.PreciousMetalCoins.services.CoinService;
 
 import java.util.List;
@@ -51,9 +52,11 @@ public class GetCoinController {
         return stringBuilder;
     }
 
-    @PostMapping("/add")
-    public void addCoin() {
-
+    @PostMapping(value = "/add", consumes = MediaType.APPLICATION_XML_VALUE)
+    @ResponseBody
+    public void addCoin(@RequestBody CoinXml coinXml) {
+        Coin newCoin = coinMapper.toCoin(coinXml);
+        coinService.addNewCoin(newCoin);
     }
 }
 

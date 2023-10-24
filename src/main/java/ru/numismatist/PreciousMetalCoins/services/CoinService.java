@@ -45,4 +45,8 @@ public class CoinService {
         patchCoin.setId(id);
         coinRepository.save(patchCoin);
     }
+
+    public List<Coin> numberSectionDenominationMetal(String numberSectionDenominationMetal) {
+        return coinRepository.findByCatalogNumberStartingWith(numberSectionDenominationMetal);
+    }
 }

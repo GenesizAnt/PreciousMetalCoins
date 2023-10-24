@@ -29,12 +29,6 @@ public class CoinController {
         this.coinMapper = coinMapper;
     }
 
-    @GetMapping("/test/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void getCoin(@PathVariable int id) {
-        System.out.println(coinService.getCoinByIndex(id).getCost());
-    }
-
     @GetMapping(value = "/get/{id}", produces = MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
     public String getCoinXml(@PathVariable int id) throws JAXBException {
@@ -78,6 +72,17 @@ public class CoinController {
     public void pathCoin(@RequestBody CoinXml coinXml, @PathVariable("id") int id) {
         Coin patchCoin = coinMapper.toCoin(coinXml);
         coinService.updateCoin(id, patchCoin);
+    }
+
+    @GetMapping(value = "/section_denomination_metal/{number}", produces = MediaType.APPLICATION_XML_VALUE)
+    @ResponseBody
+    public StringBuilder getCoinsByCatalogNumber(@PathVariable("number") String number) throws JAXBException {
+        List<CoinXml> coinXmlList = coinMapper.toDtoListXML(coinService.numberSectionDenominationMetal(number));
+        StringBuilder stringBuilder = new StringBuilder();
+        for (CoinXml coinXml : coinXmlList) {
+            stringBuilder.append(getXMLResponse(coinXml));
+        }
+        return stringBuilder;
     }
 }
 

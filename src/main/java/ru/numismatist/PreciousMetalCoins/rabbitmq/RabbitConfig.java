@@ -2,8 +2,7 @@ package ru.numismatist.PreciousMetalCoins.rabbitmq;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.core.AmqpAdmin;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -30,7 +29,32 @@ public class RabbitConfig {
     }
 
     @Bean
-    public Queue coinQueue() {
-        return new Queue("coinQueue");
+    public Queue coinQueue1() {
+        return new Queue("coinQueue1");
+    }
+
+    @Bean
+    public Queue coinQueue2() {
+        return new Queue("coinQueue2");
+    }
+
+    @Bean
+    public FanoutExchange fanoutExchange() {
+        return new FanoutExchange("coinExchange");
+    }
+
+    @Bean
+    public DirectExchange directExchange() {
+        return new DirectExchange("directExchange");
+    }
+
+    @Bean
+    public Binding binding1() {
+        return BindingBuilder.bind(coinQueue1()).to(directExchange()).with("collectorValue");
+    }
+
+    @Bean
+    public Binding binding2() {
+        return BindingBuilder.bind(coinQueue2()).to(directExchange()).with("coin");
     }
 }

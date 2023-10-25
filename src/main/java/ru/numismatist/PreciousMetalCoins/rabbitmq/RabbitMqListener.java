@@ -12,9 +12,15 @@ public class RabbitMqListener {
 
     Logger logger = LoggerFactory.getLogger(RabbitMqListener.class);
 
-    @RabbitListener(queues = "coinQueue")
-    public void processMyQueue(String message) {
-        logger.info("Received from coinQueue: {}", message);
+    @RabbitListener(queues = "coinQueue1")
+    public void processCoinQueue1(String message) {
+        logger.info("Received first coinQueue1: {}", message);
     }
+
+    @RabbitListener(queues = "coinQueue2")
+    public void processCoinQueue2(String message) {
+        logger.info("Received second coinQueue2: {}", message);
+    }
+
 
 }

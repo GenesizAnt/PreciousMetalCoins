@@ -4,6 +4,7 @@ import jakarta.xml.bind.JAXBException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,8 @@ import ru.numismatist.PreciousMetalCoins.rabbitmq.RabbitMqListener;
 import ru.numismatist.PreciousMetalCoins.services.CoinService;
 
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static ru.numismatist.PreciousMetalCoins.util.Util.getXMLResponse;
 import static ru.numismatist.PreciousMetalCoins.util.XmlSerializer.convertXMLToCoin;
@@ -26,11 +29,11 @@ public class CoinController {
 
     private final CoinService coinService;
     private final CoinMapper coinMapper;
-    private final AmqpTemplate template;
+    private final RabbitTemplate template;
     Logger logger = LoggerFactory.getLogger(RabbitMqListener.class);
 
     @Autowired
-    public CoinController(CoinService coinService, CoinMapper coinMapper, AmqpTemplate template) {
+    public CoinController(CoinService coinService, CoinMapper coinMapper, RabbitTemplate template) {
         this.coinService = coinService;
         this.coinMapper = coinMapper;
         this.template = template;
@@ -94,9 +97,10 @@ public class CoinController {
 
     @PostMapping("/rabbit")
     @ResponseBody
-    public ResponseEntity<String> testRabbit(@RequestBody String message) {
+    public ResponseEntity<String> testRabbit(@RequestBody Map<String, String> map) {
         logger.info("test queue");
-        template.convertAndSend("coinQueue", message);
+        template.setExchange("directExchange");
+        template.convertAndSend(map.get("key"), map.get("message"));//ключ можно передать в параметре юрл
         return ResponseEntity.ok("Успех");
     }
 }

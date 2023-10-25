@@ -5,6 +5,7 @@ import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.Unmarshaller;
 import org.springframework.util.ResourceUtils;
+import ru.numismatist.PreciousMetalCoins.dto.CoinCollectorValue;
 import ru.numismatist.PreciousMetalCoins.dto.CoinXml;
 import ru.numismatist.PreciousMetalCoins.models.Coin;
 
@@ -31,6 +32,18 @@ public class XmlSerializer {
 
         StringWriter stringWriter = new StringWriter();
         marshaller.marshal(coinXml, stringWriter);
+
+        return stringWriter.toString();
+    }
+
+    public static String serializeCoinCollectorValueToXml(CoinCollectorValue coinCollectorValue) throws JAXBException {
+
+        JAXBContext jaxbContext = JAXBContext.newInstance(coinCollectorValue.getClass());
+        Marshaller marshaller = jaxbContext.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+        StringWriter stringWriter = new StringWriter();
+        marshaller.marshal(coinCollectorValue, stringWriter);
 
         return stringWriter.toString();
     }

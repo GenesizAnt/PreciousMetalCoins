@@ -1,6 +1,7 @@
 package ru.numismatist.PreciousMetalCoins.util;
 
 import jakarta.xml.bind.JAXBException;
+import ru.numismatist.PreciousMetalCoins.dto.CoinCollectorValue;
 import ru.numismatist.PreciousMetalCoins.dto.CoinXml;
 
 public class Util {
@@ -9,4 +10,7 @@ public class Util {
         return XmlSerializer.serializeCoinToXml(coinXml);
     }
 
+    public static String getValueXMLResponse(CoinCollectorValue coinCollectorValue) throws JAXBException {
+        return XmlSerializer.serializeCoinCollectorValueToXml(coinCollectorValue);
+    }
 }

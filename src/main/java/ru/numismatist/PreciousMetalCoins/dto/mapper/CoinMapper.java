@@ -1,6 +1,7 @@
 package ru.numismatist.PreciousMetalCoins.dto.mapper;
 
 import org.springframework.stereotype.Component;
+import ru.numismatist.PreciousMetalCoins.dto.CoinCollectorValue;
 import ru.numismatist.PreciousMetalCoins.dto.CoinXml;
 import ru.numismatist.PreciousMetalCoins.models.Coin;
 
@@ -38,4 +39,16 @@ public class CoinMapper {
                 coinXml.getCatalogNumber(),
                 coinXml.getCost());
     }
+
+    public CoinCollectorValue toDtoCoinCollectorValue(Coin coin) {
+
+        return new CoinCollectorValue(
+                coin.getName(),
+                coin.getMetal(),
+                coin.getCatalogNumber(),
+                coin.getCost(),
+                coin.getWeight());
+    }
+
+
 }

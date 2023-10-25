@@ -34,6 +34,7 @@ public class CoinController {
     public String getCoinXml(@PathVariable int id) throws JAXBException {
         CoinXml coinXml = coinMapper.toDtoXML(coinService.getCoinByIndex(id));
         return getXMLResponse(coinXml);
+//        return getXMLResponse(coinXml);
     }
 
     @GetMapping(value = "/get/all", produces = MediaType.APPLICATION_XML_VALUE)

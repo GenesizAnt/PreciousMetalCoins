@@ -12,7 +12,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "Coins")
 @XmlRootElement
-public class Coin {
+public class Coin implements SerializeableCoin {
 
     @Id
     @Column(name = "id")

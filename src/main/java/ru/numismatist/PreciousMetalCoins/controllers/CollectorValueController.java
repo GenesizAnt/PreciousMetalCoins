@@ -18,7 +18,7 @@ import ru.numismatist.PreciousMetalCoins.services.CoinService;
 import java.io.StringReader;
 import java.util.Objects;
 
-import static ru.numismatist.PreciousMetalCoins.util.Util.getValueXMLResponse;
+import static ru.numismatist.PreciousMetalCoins.util.Util.getXMLResponse;
 
 @Controller
 @RequestMapping("/collector_value")
@@ -52,7 +52,8 @@ public class CollectorValueController {
             case PALLADIUM -> coinCollectorValue.calculateCollectorValueRub(metalPerDate.getRecords().get(3).getSell());
         }
 
-        return getValueXMLResponse(coinCollectorValue);
+        return getXMLResponse(coinCollectorValue);
+//        return getValueXMLResponse(coinCollectorValue);
     }
 
     private Metall extractedPreciousMetalsPriceFromCB(String day, String month, String year) throws JAXBException {

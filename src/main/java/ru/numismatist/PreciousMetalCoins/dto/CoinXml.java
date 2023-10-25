@@ -4,10 +4,12 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import ru.numismatist.PreciousMetalCoins.models.Coin;
+import ru.numismatist.PreciousMetalCoins.models.SerializeableCoin;
 
 @XmlRootElement(name = "Coin")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CoinXml {
+public class CoinXml implements SerializeableCoin {
 
     @XmlElement
     private String name;

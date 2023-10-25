@@ -4,7 +4,9 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import ru.numismatist.PreciousMetalCoins.models.Coin;
 import ru.numismatist.PreciousMetalCoins.models.PreciousMetal;
+import ru.numismatist.PreciousMetalCoins.models.SerializeableCoin;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -13,7 +15,7 @@ import static ru.numismatist.PreciousMetalCoins.models.PreciousMetal.*;
 
 @XmlRootElement(name = "CoinCollectorValue")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CoinCollectorValue {
+public class CoinCollectorValue implements SerializeableCoin {
 
     @XmlElement
     private String name;

@@ -8,6 +8,7 @@ import org.springframework.util.ResourceUtils;
 import ru.numismatist.PreciousMetalCoins.dto.CoinCollectorValue;
 import ru.numismatist.PreciousMetalCoins.dto.CoinXml;
 import ru.numismatist.PreciousMetalCoins.models.Coin;
+import ru.numismatist.PreciousMetalCoins.models.SerializeableCoin;
 
 import java.io.*;
 import java.util.stream.Collectors;
@@ -24,26 +25,38 @@ public class XmlSerializer {
         }
     }
 
-    public static String serializeCoinToXml(CoinXml coinXml) throws JAXBException {
+//    public static String serializeCoinToXml(CoinXml coinXml) throws JAXBException {
+//
+//        JAXBContext jaxbContext = JAXBContext.newInstance(coinXml.getClass());
+//        Marshaller marshaller = jaxbContext.createMarshaller();
+//        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+//
+//        StringWriter stringWriter = new StringWriter();
+//        marshaller.marshal(coinXml, stringWriter);
+//
+//        return stringWriter.toString();
+//    }
+//
+//    public static String serializeCoinCollectorValueToXml(CoinCollectorValue coinCollectorValue) throws JAXBException {
+//
+//        JAXBContext jaxbContext = JAXBContext.newInstance(coinCollectorValue.getClass());
+//        Marshaller marshaller = jaxbContext.createMarshaller();
+//        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+//
+//        StringWriter stringWriter = new StringWriter();
+//        marshaller.marshal(coinCollectorValue, stringWriter);
+//
+//        return stringWriter.toString();
+//    }
 
-        JAXBContext jaxbContext = JAXBContext.newInstance(coinXml.getClass());
+    public static String serializeCoinToXml(SerializeableCoin coin) throws JAXBException {
+
+        JAXBContext jaxbContext = JAXBContext.newInstance(coin.getClass());
         Marshaller marshaller = jaxbContext.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
         StringWriter stringWriter = new StringWriter();
-        marshaller.marshal(coinXml, stringWriter);
-
-        return stringWriter.toString();
-    }
-
-    public static String serializeCoinCollectorValueToXml(CoinCollectorValue coinCollectorValue) throws JAXBException {
-
-        JAXBContext jaxbContext = JAXBContext.newInstance(coinCollectorValue.getClass());
-        Marshaller marshaller = jaxbContext.createMarshaller();
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
-        StringWriter stringWriter = new StringWriter();
-        marshaller.marshal(coinCollectorValue, stringWriter);
+        marshaller.marshal(coin, stringWriter);
 
         return stringWriter.toString();
     }

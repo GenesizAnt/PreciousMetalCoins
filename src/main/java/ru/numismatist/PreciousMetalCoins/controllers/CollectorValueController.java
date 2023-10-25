@@ -53,25 +53,22 @@ public class CollectorValueController {
         }
 
         return getXMLResponse(coinCollectorValue);
-//        return getValueXMLResponse(coinCollectorValue);
     }
 
     private Metall extractedPreciousMetalsPriceFromCB(String day, String month, String year) throws JAXBException {
         String url = getPreciousMetalsPriceFromCB(day, month, year);
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
-        String body = response.getBody();
+        String responseBody = response.getBody();
         JAXBContext jaxbContext = JAXBContext.newInstance(Metall.class);
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-        return (Metall) unmarshaller.unmarshal(new StringReader(Objects.requireNonNull(body)));
+        return (Metall) unmarshaller.unmarshal(new StringReader(Objects.requireNonNull(responseBody)));
     }
 
     private String getPreciousMetalsPriceFromCB(String day, String month, String year) {
-        StringBuilder date = new StringBuilder();
-        date.append(day).append("/").append(month).append("/").append(year);
+        StringBuilder dateForCBFormat = new StringBuilder();
+        dateForCBFormat.append(day).append("/").append(month).append("/").append(year);
 
-        StringBuilder url = new StringBuilder();
-        url.append("http://www.cbr.ru/scripts/xml_metall.asp?date_req1=")
-                .append(date).append("&date_req2=").append(date);
-        return String.valueOf(url);
+        return "http://www.cbr.ru/scripts/xml_metall.asp?date_req1=" +
+                dateForCBFormat + "&date_req2=" + dateForCBFormat;
     }
 }

@@ -2,11 +2,10 @@ package ru.numismatist.PreciousMetalCoins.controllers;
 
 import jakarta.xml.bind.JAXBException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import ru.numismatist.PreciousMetalCoins.dto.CoinXml;
+import ru.numismatist.PreciousMetalCoins.dto.CoinToXml;
 import ru.numismatist.PreciousMetalCoins.dto.mapper.CoinMapper;
 import ru.numismatist.PreciousMetalCoins.models.Coin;
 import ru.numismatist.PreciousMetalCoins.services.CoinService;
@@ -32,26 +31,25 @@ public class CoinController {
     @GetMapping(value = "/get/{id}", produces = MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
     public String getCoinXml(@PathVariable int id) throws JAXBException {
-        CoinXml coinXml = coinMapper.toDtoXML(coinService.getCoinByIndex(id));
-        return getXMLResponse(coinXml);
-//        return getXMLResponse(coinXml);
+        CoinToXml coinToXml = coinMapper.toDtoXML(coinService.getCoinByIndex(id));
+        return getXMLResponse(coinToXml);
     }
 
     @GetMapping(value = "/get/all", produces = MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
     public StringBuilder getCoinsAllXml() throws JAXBException {
-        List<CoinXml> coinXmlList = coinMapper.toDtoListXML(coinService.findAllCoin());
+        List<CoinToXml> coinToXmlList = coinMapper.toDtoListXML(coinService.findAllCoin());
         StringBuilder stringBuilder = new StringBuilder();
-        for (CoinXml coinXml : coinXmlList) {
-            stringBuilder.append(getXMLResponse(coinXml));
+        for (CoinToXml coinToXml : coinToXmlList) {
+            stringBuilder.append(getXMLResponse(coinToXml));
         }
         return stringBuilder;
     }
 
     @PostMapping(value = "/add", consumes = MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
-    public void addCoin(@RequestBody CoinXml coinXml) {
-        Coin newCoin = coinMapper.toCoin(coinXml);
+    public void addCoin(@RequestBody CoinToXml coinToXml) {
+        Coin newCoin = coinMapper.toCoin(coinToXml);
         coinService.addNewCoin(newCoin);
     }
 
@@ -70,18 +68,18 @@ public class CoinController {
 
     @PatchMapping(value = "/patch/{id}", consumes = MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
-    public void pathCoin(@RequestBody CoinXml coinXml, @PathVariable("id") int id) {
-        Coin patchCoin = coinMapper.toCoin(coinXml);
+    public void pathCoin(@RequestBody CoinToXml coinToXml, @PathVariable("id") int id) {
+        Coin patchCoin = coinMapper.toCoin(coinToXml);
         coinService.updateCoin(id, patchCoin);
     }
 
     @GetMapping(value = "/section_denomination_metal/{number}", produces = MediaType.APPLICATION_XML_VALUE)
     @ResponseBody
     public StringBuilder getCoinsByCatalogNumber(@PathVariable("number") String number) throws JAXBException {
-        List<CoinXml> coinXmlList = coinMapper.toDtoListXML(coinService.numberSectionDenominationMetal(number));
+        List<CoinToXml> coinToXmlList = coinMapper.toDtoListXML(coinService.numberSectionDenominationMetal(number));
         StringBuilder stringBuilder = new StringBuilder();
-        for (CoinXml coinXml : coinXmlList) {
-            stringBuilder.append(getXMLResponse(coinXml));
+        for (CoinToXml coinToXml : coinToXmlList) {
+            stringBuilder.append(getXMLResponse(coinToXml));
         }
         return stringBuilder;
     }

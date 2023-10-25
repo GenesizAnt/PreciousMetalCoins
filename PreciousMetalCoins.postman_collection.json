@@ -1,0 +1,207 @@
+{
+	"info": {
+		"_postman_id": "427ccd59-60b9-4470-b1d9-1fdf607f380e",
+		"name": "PreciousMetalCoins",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27838457"
+	},
+	"item": [
+		{
+			"name": "getCoinId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/coins/get/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"coins",
+						"get",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllCoin",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/coins/get/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"coins",
+						"get",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addCoin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\r\n<Coin>\r\n    <name>Алмазный-22</name>\r\n    <denomination>25</denomination>\r\n    <metal>серебро 925/1000</metal>\r\n    <weight>155.00</weight>\r\n    <catalogNumber>5115-0159</catalogNumber>\r\n    <cost>21500</cost>\r\n</Coin>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/coins/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"coins",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addCoinFromFile",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/coins/add_from_file",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"coins",
+						"add_from_file"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteCoin",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/coins/delete/14",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"coins",
+						"delete",
+						"14"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patchCoin",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\r\n<Coin>\r\n    <name>Алмазный-22</name>\r\n    <denomination>25</denomination>\r\n    <metal>серебро 925/1000</metal>\r\n    <weight>155.00</weight>\r\n    <catalogNumber>5115-0159</catalogNumber>\r\n    <cost>22500</cost>\r\n</Coin>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/coins/patch/11",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"coins",
+						"patch",
+						"11"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCoinByNumber",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/coins/section_denomination_metal/5110",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"coins",
+						"section_denomination_metal",
+						"5110"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCoinCollectorValue",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/collector_value/1?day=25&month=10&year=2023",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"collector_value",
+						"1"
+					],
+					"query": [
+						{
+							"key": "day",
+							"value": "25"
+						},
+						{
+							"key": "month",
+							"value": "10"
+						},
+						{
+							"key": "year",
+							"value": "2023"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

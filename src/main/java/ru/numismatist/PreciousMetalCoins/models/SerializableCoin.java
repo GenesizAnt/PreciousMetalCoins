@@ -1,4 +1,5 @@
 package ru.numismatist.PreciousMetalCoins.models;
 
-public interface SerializeableCoin {
+public interface SerializableCoin {
+
 }

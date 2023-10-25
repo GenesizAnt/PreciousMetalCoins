@@ -4,12 +4,11 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import ru.numismatist.PreciousMetalCoins.models.Coin;
-import ru.numismatist.PreciousMetalCoins.models.SerializeableCoin;
+import ru.numismatist.PreciousMetalCoins.models.SerializableCoin;
 
 @XmlRootElement(name = "Coin")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CoinXml implements SerializeableCoin {
+public class CoinToXml implements SerializableCoin {
 
     @XmlElement
     private String name;
@@ -29,7 +28,7 @@ public class CoinXml implements SerializeableCoin {
     @XmlElement
     private int cost;
 
-    public CoinXml(String name, int denomination, String metal, double weight, String catalogNumber, int cost) {
+    public CoinToXml(String name, int denomination, String metal, double weight, String catalogNumber, int cost) {
         this.name = name;
         this.denomination = denomination;
         this.metal = metal;
@@ -38,7 +37,7 @@ public class CoinXml implements SerializeableCoin {
         this.cost = cost;
     }
 
-    public CoinXml() {}
+    public CoinToXml() {}
 
     public String getName() {
         return name;

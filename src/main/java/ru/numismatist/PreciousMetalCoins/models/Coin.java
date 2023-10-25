@@ -4,15 +4,12 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table(name = "Coins")
 @XmlRootElement
-public class Coin implements SerializeableCoin {
+public class Coin implements SerializableCoin {
 
     @Id
     @Column(name = "id")

@@ -3,7 +3,6 @@ package ru.numismatist.PreciousMetalCoins.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.numismatist.PreciousMetalCoins.dto.CoinXml;
 import ru.numismatist.PreciousMetalCoins.models.Coin;
 import ru.numismatist.PreciousMetalCoins.repositories.CoinRepository;
 
@@ -11,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional(readOnly = true) // для методов которые что-то меняют поставить @Transactional
+@Transactional(readOnly = true)
 public class CoinService {
 
     private final CoinRepository coinRepository;

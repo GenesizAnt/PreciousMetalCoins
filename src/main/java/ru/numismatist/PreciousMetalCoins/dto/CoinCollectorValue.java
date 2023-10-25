@@ -4,9 +4,8 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import ru.numismatist.PreciousMetalCoins.models.Coin;
 import ru.numismatist.PreciousMetalCoins.models.PreciousMetal;
-import ru.numismatist.PreciousMetalCoins.models.SerializeableCoin;
+import ru.numismatist.PreciousMetalCoins.models.SerializableCoin;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -15,7 +14,7 @@ import static ru.numismatist.PreciousMetalCoins.models.PreciousMetal.*;
 
 @XmlRootElement(name = "CoinCollectorValue")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CoinCollectorValue implements SerializeableCoin {
+public class CoinCollectorValue implements SerializableCoin {
 
     @XmlElement
     private String name;
@@ -44,10 +43,6 @@ public class CoinCollectorValue implements SerializeableCoin {
         this.preciousMetalFromCatalogNumber = parserMetalCode(catalogNumber);
     }
 
-    public CoinCollectorValue() {
-
-    }
-
     private PreciousMetal parserMetalCode(String catalogNumber) {
         return switch (Integer.parseInt(catalogNumber.substring(1, 2))) {
             case 1 -> SILVER;
@@ -64,6 +59,10 @@ public class CoinCollectorValue implements SerializeableCoin {
         BigDecimal costThisCoin = new BigDecimal(getCost());
         this.collectorValueRub = costThisCoin.subtract(pricePreciousMetal.multiply(BigDecimal.valueOf(weight))).
                 setScale(2, RoundingMode.HALF_EVEN);
+    }
+
+    public CoinCollectorValue() {
+
     }
 
     public String getName() {

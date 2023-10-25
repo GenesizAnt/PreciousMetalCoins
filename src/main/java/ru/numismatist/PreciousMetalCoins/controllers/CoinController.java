@@ -1,13 +1,18 @@
 package ru.numismatist.PreciousMetalCoins.controllers;
 
 import jakarta.xml.bind.JAXBException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.numismatist.PreciousMetalCoins.dto.CoinToXml;
 import ru.numismatist.PreciousMetalCoins.dto.mapper.CoinMapper;
 import ru.numismatist.PreciousMetalCoins.models.Coin;
+import ru.numismatist.PreciousMetalCoins.rabbitmq.RabbitMqListener;
 import ru.numismatist.PreciousMetalCoins.services.CoinService;
 
 import java.util.List;
@@ -21,11 +26,14 @@ public class CoinController {
 
     private final CoinService coinService;
     private final CoinMapper coinMapper;
+    private final AmqpTemplate template;
+    Logger logger = LoggerFactory.getLogger(RabbitMqListener.class);
 
     @Autowired
-    public CoinController(CoinService coinService, CoinMapper coinMapper) {
+    public CoinController(CoinService coinService, CoinMapper coinMapper, AmqpTemplate template) {
         this.coinService = coinService;
         this.coinMapper = coinMapper;
+        this.template = template;
     }
 
     @GetMapping(value = "/get/{id}", produces = MediaType.APPLICATION_XML_VALUE)
@@ -82,6 +90,14 @@ public class CoinController {
             stringBuilder.append(getXMLResponse(coinToXml));
         }
         return stringBuilder;
+    }
+
+    @PostMapping("/rabbit")
+    @ResponseBody
+    public ResponseEntity<String> testRabbit(@RequestBody String message) {
+        logger.info("test queue");
+        template.convertAndSend("coinQueue", message);
+        return ResponseEntity.ok("Успех");
     }
 }
 

@@ -10,7 +10,6 @@ import ru.numismatist.PreciousMetalCoins.models.Coin;
 import ru.numismatist.PreciousMetalCoins.models.SerializableCoin;
 
 import java.io.*;
-import java.util.Objects;
 
 public class XmlSerializer {
 
@@ -43,21 +42,6 @@ public class XmlSerializer {
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
             return (Coin) unmarshaller.unmarshal(file);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return coin;
-    }
-
-    public static CoinToXml convertXMLToCoinFromStringXml(String stringXml) {
-        CoinToXml coin = new CoinToXml();
-        try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(CoinToXml.class);
-            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-
-            return (CoinToXml) unmarshaller.unmarshal(new StringReader(stringXml));
 
         } catch (Exception e) {
             e.printStackTrace();

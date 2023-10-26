@@ -1,9 +1,6 @@
 package ru.numismatist.PreciousMetalCoins.controllers;
 
 import jakarta.xml.bind.JAXBException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -12,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.numismatist.PreciousMetalCoins.dto.CoinToXml;
 import ru.numismatist.PreciousMetalCoins.dto.mapper.CoinMapper;
 import ru.numismatist.PreciousMetalCoins.models.Coin;
-import ru.numismatist.PreciousMetalCoins.rabbitmq.RabbitMqListener;
 import ru.numismatist.PreciousMetalCoins.services.CoinService;
 
 import java.util.List;
@@ -27,7 +23,6 @@ public class CoinController {
     private final CoinService coinService;
     private final CoinMapper coinMapper;
     private final RabbitTemplate template;
-    Logger logger = LoggerFactory.getLogger(RabbitMqListener.class);
 
     @Autowired
     public CoinController(CoinService coinService, CoinMapper coinMapper, RabbitTemplate template) {
@@ -96,24 +91,9 @@ public class CoinController {
     @ResponseBody
     public void testRabbit(@RequestBody String message,
                              @RequestParam(value = "key", required = false) String key) {
-        logger.info("test queue");
         template.setExchange("directExchange");
         template.convertAndSend(key, message);
     }
-//        String responseMessage = (String) template.receiveAndConvert("directExchange");
-//        System.out.println();
-//        template.convertAndSend(key, message);
-//        return "redirect:/result";
-    //        return new RedirectView("/result");
-
-//    @PostMapping("/rabbit")
-//    @ResponseBody
-//    public ResponseEntity<String> testRabbit(@RequestBody Map<String, String> map) {
-//        logger.info("test queue");
-//        template.setExchange("directExchange");
-//        template.convertAndSend(map.get("key"), map.get("message"));
-//        return ResponseEntity.ok("OK");
-//    }
 }
 
 

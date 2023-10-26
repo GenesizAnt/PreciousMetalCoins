@@ -3,7 +3,7 @@ CREATE TABLE Coins(
     name          VARCHAR(100) NOT NULL,
     denomination  INT,
     metal         VARCHAR(100) NOT NULL,
-    weight        DECIMAL,
+    weight        DECIMAL(5,2) CHECK ( weight > 0.0 ),
     catalogNumber VARCHAR(100) NOT NULL,
     cost          INT
 );

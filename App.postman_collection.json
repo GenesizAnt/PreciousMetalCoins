@@ -202,6 +202,126 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "getAllCoinToQueueRabbit",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "coin",
+						"value": "coin",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "1",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/coins/rabbit?key=getAll",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"coins",
+						"rabbit"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "getAll"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllCoinFromQueueRabbit",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/resultGetAllCoin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"resultGetAllCoin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCoinFromQueueRabbit",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/resultGetCoin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"resultGetCoin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCoinToQueueRabbit",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "2",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/coins/rabbit?key=get",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"coins",
+						"rabbit"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "get"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

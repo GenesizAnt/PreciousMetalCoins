@@ -5,10 +5,12 @@ import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.Unmarshaller;
 import org.springframework.util.ResourceUtils;
+import ru.numismatist.PreciousMetalCoins.dto.CoinToXml;
 import ru.numismatist.PreciousMetalCoins.models.Coin;
 import ru.numismatist.PreciousMetalCoins.models.SerializableCoin;
 
 import java.io.*;
+import java.util.Objects;
 
 public class XmlSerializer {
 
@@ -34,13 +36,28 @@ public class XmlSerializer {
         return stringWriter.toString();
     }
 
-    public static Coin convertXMLToCoin() {
+    public static Coin convertXMLToCoinFromFile() {
         Coin coin = new Coin();
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(Coin.class);
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
             return (Coin) unmarshaller.unmarshal(file);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return coin;
+    }
+
+    public static CoinToXml convertXMLToCoinFromStringXml(String stringXml) {
+        CoinToXml coin = new CoinToXml();
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(CoinToXml.class);
+            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+            return (CoinToXml) unmarshaller.unmarshal(new StringReader(stringXml));
 
         } catch (Exception e) {
             e.printStackTrace();

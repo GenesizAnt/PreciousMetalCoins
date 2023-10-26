@@ -3,13 +3,15 @@ package ru.numismatist.PreciousMetalCoins.controllers;
 import jakarta.xml.bind.JAXBException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 import ru.numismatist.PreciousMetalCoins.dto.CoinToXml;
 import ru.numismatist.PreciousMetalCoins.dto.mapper.CoinMapper;
 import ru.numismatist.PreciousMetalCoins.models.Coin;
@@ -18,10 +20,9 @@ import ru.numismatist.PreciousMetalCoins.services.CoinService;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
 
 import static ru.numismatist.PreciousMetalCoins.util.Util.getXMLResponse;
-import static ru.numismatist.PreciousMetalCoins.util.XmlSerializer.convertXMLToCoin;
+import static ru.numismatist.PreciousMetalCoins.util.XmlSerializer.convertXMLToCoinFromFile;
 
 @Controller
 @RequestMapping("/coins")
@@ -31,6 +32,9 @@ public class CoinController {
     private final CoinMapper coinMapper;
     private final RabbitTemplate template;
     Logger logger = LoggerFactory.getLogger(RabbitMqListener.class);
+
+    @Autowired
+    private AmqpAdmin amqpAdmin;
 
     @Autowired
     public CoinController(CoinService coinService, CoinMapper coinMapper, RabbitTemplate template) {
@@ -57,19 +61,19 @@ public class CoinController {
         return stringBuilder;
     }
 
-    @PostMapping(value = "/add", consumes = MediaType.APPLICATION_XML_VALUE)
-    @ResponseBody
-    public void addCoin(@RequestBody CoinToXml coinToXml) {
-        Coin newCoin = coinMapper.toCoin(coinToXml);
-        coinService.addNewCoin(newCoin);
-    }
-
-    @PostMapping("/add_from_file")
-    @ResponseBody
-    public void addCoinFromFile() {
-        Coin newCoin = convertXMLToCoin();
-        coinService.addNewCoin(newCoin);
-    }
+//    @PostMapping(value = "/add", consumes = MediaType.APPLICATION_XML_VALUE)
+//    @ResponseBody
+//    public void addCoin(@RequestBody CoinToXml coinToXml) {
+//        Coin newCoin = coinMapper.toCoin(coinToXml);
+//        coinService.addNewCoin(newCoin);
+//    }
+//
+//    @PostMapping("/add_from_file")
+//    @ResponseBody
+//    public void addCoinFromFile() {
+//        Coin newCoin = convertXMLToCoinFromFile();
+//        coinService.addNewCoin(newCoin);
+//    }
 
     @DeleteMapping("/delete/{id}")
     @ResponseBody
@@ -97,12 +101,24 @@ public class CoinController {
 
     @PostMapping("/rabbit")
     @ResponseBody
-    public ResponseEntity<String> testRabbit(@RequestBody Map<String, String> map) {
+    public void testRabbit(@RequestBody String message,
+                           @RequestParam(value = "key", required = false) String key) {
         logger.info("test queue");
         template.setExchange("directExchange");
-        template.convertAndSend(map.get("key"), map.get("message"));//ключ можно передать в параметре юрл
-        return ResponseEntity.ok("Успех");
+        template.convertAndSend(key, message);
+//        return "redirect:/result";
     }
+
+    //        return new RedirectView("/result");
+
+//    @PostMapping("/rabbit")
+//    @ResponseBody
+//    public ResponseEntity<String> testRabbit(@RequestBody Map<String, String> map) {
+//        logger.info("test queue");
+//        template.setExchange("directExchange");
+//        template.convertAndSend(map.get("key"), map.get("message"));
+//        return ResponseEntity.ok("OK");
+//    }
 }
 
 

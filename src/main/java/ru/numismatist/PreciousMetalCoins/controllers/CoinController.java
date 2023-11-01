@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import ru.numismatist.PreciousMetalCoins.dto.CoinToXml;
 import ru.numismatist.PreciousMetalCoins.dto.mapper.CoinMapper;
 import ru.numismatist.PreciousMetalCoins.models.Coin;
+import ru.numismatist.PreciousMetalCoins.rabbitmq.RabbitMqListener;
 import ru.numismatist.PreciousMetalCoins.services.CoinService;
 
 import java.util.List;
+import java.util.Objects;
 
 import static ru.numismatist.PreciousMetalCoins.util.Util.getXMLResponse;
 import static ru.numismatist.PreciousMetalCoins.util.XmlSerializer.convertXMLToCoinFromFile;
@@ -23,12 +25,14 @@ public class CoinController {
     private final CoinService coinService;
     private final CoinMapper coinMapper;
     private final RabbitTemplate template;
+    private final RabbitMqListener rabbitMqListener;
 
     @Autowired
-    public CoinController(CoinService coinService, CoinMapper coinMapper, RabbitTemplate template) {
+    public CoinController(CoinService coinService, CoinMapper coinMapper, RabbitTemplate template, RabbitMqListener rabbitMqListener) {
         this.coinService = coinService;
         this.coinMapper = coinMapper;
         this.template = template;
+        this.rabbitMqListener = rabbitMqListener;
     }
 
     @GetMapping(value = "/get/{id}", produces = MediaType.APPLICATION_XML_VALUE)
@@ -88,11 +92,43 @@ public class CoinController {
     }
 
     @GetMapping("/rabbit")
-    @ResponseBody
-    public void testRabbit(@RequestBody String message,
-                             @RequestParam(value = "key", required = false) String key) {
+    public ResponseEntity<String> testRabbit(@RequestParam(value = "message") String message,
+                                             @RequestParam(value = "key") String key) {
         template.setExchange("directExchange");
         template.convertAndSend(key, message);
+        switch (key) {
+            case "get" -> {
+                return ResponseEntity.status(HttpStatus.FOUND)
+                        .header(HttpHeaders.LOCATION, "/coins/resultGetCoin")
+                        .build();
+            }
+            case "getAll" -> {
+                return ResponseEntity.status(HttpStatus.FOUND)
+                        .header(HttpHeaders.LOCATION, "/coins/resultGetAllCoin")
+                        .build();
+            }
+            default -> {
+                return ResponseEntity.badRequest().body("Invalid key. Only 'get' or 'getAll'");
+            }
+        }
+    }
+
+    @GetMapping(value = "/resultGetCoin", produces = MediaType.APPLICATION_XML_VALUE)
+    @ResponseBody
+    public String getResultGetCoin() throws JAXBException, InterruptedException {
+        Thread.sleep(500);
+        return getXMLResponse(rabbitMqListener.getResult().getBody());
+    }
+
+    @GetMapping(value = "/resultGetAllCoin", produces = MediaType.APPLICATION_XML_VALUE)
+    @ResponseBody
+    public StringBuilder getResultAllGetCoin() throws JAXBException, InterruptedException {
+        Thread.sleep(500);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (CoinToXml coinToXml : Objects.requireNonNull(rabbitMqListener.getResultAll().getBody())) {
+            stringBuilder.append(getXMLResponse(coinToXml));
+        }
+        return stringBuilder;
     }
 }
 

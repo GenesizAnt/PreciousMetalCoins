@@ -117,7 +117,7 @@ public class CoinController {
     @ResponseBody
     public String getResultGetCoin() throws JAXBException, InterruptedException {
         Thread.sleep(500);
-        return getXMLResponse(rabbitMqListener.getResult().getBody());
+        return getXMLResponse(rabbitMqListener.getResult().get());
     }
 
     @GetMapping(value = "/resultGetAllCoin", produces = MediaType.APPLICATION_XML_VALUE)
@@ -125,7 +125,7 @@ public class CoinController {
     public StringBuilder getResultAllGetCoin() throws JAXBException, InterruptedException {
         Thread.sleep(500);
         StringBuilder stringBuilder = new StringBuilder();
-        for (CoinToXml coinToXml : Objects.requireNonNull(rabbitMqListener.getResultAll().getBody())) {
+        for (CoinToXml coinToXml : Objects.requireNonNull(rabbitMqListener.getResultAll().get())) {
             stringBuilder.append(getXMLResponse(coinToXml));
         }
         return stringBuilder;
